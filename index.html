@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Panorama Viewer v0.1</title>
+
+    <script src="https://aframe.io/releases/0.4.0/aframe.min.js"></script>
+    <script src="https://npmcdn.com/aframe-animation-component@3.0.1"></script>
+    <script src="https://npmcdn.com/aframe-event-set-component@3.0.1"></script>
+    <script src="https://npmcdn.com/aframe-layout-component@3.0.1"></script>
+    <script src="https://npmcdn.com/aframe-template-component@3.1.1"></script>
+    <script src="components/set-image.js"></script>
+
+    <style>
+      #frame {
+        border: 10px dashed #ccc;
+        width: 1024px;
+        height: 512px;
+        margin: 20px auto;
+      }
+
+      #frame.hover {
+        border: 10px dashed #333;
+      }
+    </style>
+  </head>
+  <body>
+    <div id='frame'>
+      <a-scene embedded>
+        <a-sky id='image-360' radius='10' src=''></a-sky>
+      </a-scene>
+    </div>
+
+    <script>
+      var frame = document.getElementById('frame');
+      var sky = document.getElementById('image-360');
+
+      frame.ondragover = function() {
+
+        this.className = 'hover';
+        return false;
+
+      };
+
+      frame.ondragend = function() {
+
+        this.className = '';
+        return false;
+
+      };
+
+      frame.ondrop = function(e) {
+
+        this.className = '';
+
+        e.preventDefault;
+
+        var file = e.dataTransfer.files[0];
+
+        var reader = new FileReader();
+
+        reader.onload = function(event) {
+
+          sky.setAttribute('src', 'url(' + event.target.result + ') no-repeat center');
+
+        };
+
+        reader.readAsDataURL(file);
+        return false;
+
+      };
+
+    </script>
+
+  </body>
+</html>
